@@ -27,7 +27,8 @@ static NSString *const ServerURL = @"http://spp.dev";
     [SPiDClient setClientID:ClientID
                clientSecret:ClientSecret
                appURLScheme:AppURLScheme
-                  serverURL:[NSURL URLWithString:ServerURL]];
+                  serverURL:[NSURL URLWithString:ServerURL]
+           tokenStorageMode:SPiDTokenStorageModeKeychainOnly];
 
     MainViewController *mainViewController = [[MainViewController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
