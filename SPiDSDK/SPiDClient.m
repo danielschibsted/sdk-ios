@@ -91,7 +91,7 @@ static SPiDClient *sharedSPiDClientInstance = nil;
 
     // Generates URL default urls
     if (![sharedSPiDClientInstance redirectURI]) {
-        redirectUri = [NSString stringWithFormat:@"%@://spid", [sharedSPiDClientInstance appURLScheme]];
+        redirectUri = [NSString stringWithFormat:@"%@://login", [sharedSPiDClientInstance appURLScheme]];
         [sharedSPiDClientInstance setRedirectURI:[NSURL URLWithString:redirectUri]];
     } else {
         redirectUri = [[sharedSPiDClientInstance redirectURI] absoluteString];

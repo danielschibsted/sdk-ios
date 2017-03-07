@@ -11,10 +11,10 @@
 #import "MainViewController.h"
 #import "NSError+SPiD.h"
 
-static NSString *const ClientID = @"your-client-id";
-static NSString *const ClientSecret = @"your-client-secret";
-static NSString *const AppURLScheme = @"your-app-url";
-static NSString *const ServerURL = @"your-spidserver-url";
+static NSString *const ClientID = @"58b55f6e4557700b008b4567";
+static NSString *const ClientSecret = @"4L1wFYxElqOvcPcRwv5U";
+static NSString *const AppURLScheme = @"spid-58b55f6e4557700b008b4567";
+static NSString *const ServerURL = @"http://spp.dev";
 
 @implementation SPiDNativeAppDelegate
 
