@@ -38,9 +38,19 @@ static NSString *const AccessTokenKeychainIdentification = @"AccessToken";
     }
 }
 
+static BOOL haveCommonElementsInArrays(NSArray *array1, NSArray *array2)
+{
+    NSMutableSet *intersection = [NSMutableSet setWithArray:array1];
+    [intersection intersectSet:[NSSet setWithArray:array2]];
+    return (intersection.count > 0);
+}
+
 - (instancetype)initWithReadBackendTypes:(NSArray<NSNumber *> *)readBackendTypes
                        writeBackendTypes:(NSArray<NSNumber *> *)writeBackendTypes
 {
+    NSAssert(haveCommonElementsInArrays(readBackendTypes, writeBackendTypes),
+             @"At least one backend should be used for both reading and writing.");
+
     self = [super init];
     if (self == nil) return nil;
     _readBackendTypes = readBackendTypes;
@@ -102,6 +112,15 @@ static NSString *const AccessTokenKeychainIdentification = @"AccessToken";
     for (NSNumber *backendType in replicateBackendTypes) {
         id<SPiDTokenStorageBackend> backend = _backends[backendType];
         [backend storeAccessTokenWithValue:token forIdentifier:self.identifier];
+    }
+
+    // If we've loaded the token from a backend which is not set up for writing,
+    // it's safe to delete it there, because it's already replicated.
+    // Note: This would remove unsafe read backend data (NSUserDefaults)
+    // after an upgrade to a safe write backend (keychain).
+    if (![_writeBackendTypes containsObject:tokenBackendType]) {
+        id<SPiDTokenStorageBackend> backend = _backends[tokenBackendType];
+        [backend removeAccessTokenForIdentifier:self.identifier];
     }
 
     return token;
